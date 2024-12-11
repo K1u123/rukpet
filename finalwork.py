@@ -65,10 +65,19 @@ class BookingSystem:
         else:
             print('Билет отсутствует')
 
+    def ticket_listing(self):
+        if self.ticket.tickets:
+            print('Список всех доступных рейсов:')
+            for ticket_number, flight_details in self.ticket.tickets.items():
+                print('Номер билета:', ticket_number, ', Откуда:', flight_details['departure point'], ', Куда:',
+                      flight_details['destination'], ', Дата:', flight_details['date'], ', Время:', flight_details['time'])
+        else:
+            print('Билетов нет в наличии')
+
 
 ticket = Ticket()
 admin = Admin(ticket)
-logged_admin = LoggedAdmin(12435)
+logged_admin = LoggedAdmin(1235)
 
 if logged_admin.login():
     admin.add_ticket('123', 'Москва', 'Пекин', '2022-12-31', '10:00')
