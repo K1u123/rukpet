@@ -5,6 +5,41 @@ class Ticket:
         self.tickets = self.tickets
 
 
+class Admin:
+    def __init__(self, ticket):
+        self.ticket = ticket
+
+    def add_ticket(self, ticket_number, departure_point, destination, date, time):
+        self.ticket.tickets[ticket_number] = {
+            'departure point': departure_point,
+            'destination': destination,
+            'date': date,
+            'time': time
+        }
+
+    def del_ticket(self, ticket_number):
+        if ticket_number in self.ticket.tickets:
+            del self.ticket.tickets[ticket_number]
+
+    def route_change(self, ticket_number, departure_point, destination):
+        if ticket_number in self.ticket.tickets:
+            self.ticket.tickets[ticket_number]['departure point'] = departure_point
+            self.ticket.tickets[ticket_number]['destination'] = destination
+
+
+class LoggedAdmin:
+    ADMIN_PASS = 12345
+
+    def __init__(self, password):
+        self.password = password
+
+    def login(self):
+        if self.password == self.ADMIN_PASS:
+            return True
+        else:
+            return False
+
+
 class BookingSystem:
     def __init__(self, ticket, admin):
         self.logged_admin = admin
@@ -29,6 +64,15 @@ class BookingSystem:
             del self.ticket.tickets[ticket_number]
         else:
             print('Билет отсутствует')
+
+    def ticket_listing(self):
+        if self.ticket.tickets:
+            print('Список всех доступных рейсов:')
+            for ticket_number, flight_details in self.ticket.tickets.items():
+                print('Номер билета:', ticket_number, ', Откуда:', flight_details['departure point'], ', Куда:',
+                      flight_details['destination'], ', Дата:', flight_details['date'], ', Время:', flight_details['time'])
+        else:
+            print('Билетов нет в наличии')
 
 
 ticket = Ticket()
